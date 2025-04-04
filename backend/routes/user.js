@@ -1,6 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
-const { User } = require("../db/index");
+const { User, Accounts } = require("../db/index");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -43,6 +43,8 @@ userRouter.post("/signup", async (req, res) => {
     }
     const user = new User({ userName, firstName, lastName, password });
     await user.save();
+    const userInitialBalance = new Accounts({ userId: user._id, balance: 0 });
+    userInitialBalance.save();
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
