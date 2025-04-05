@@ -46,9 +46,34 @@ const AccountsSchema = new mongoose.Schema({
   },
 });
 
+const TransectionSchema = new mongoose.Schema({
+  toUserId: {
+    required: true,
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  fromUserId: {
+    required: true,
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  remarks: {
+    type: String,
+  },
+});
+
 const User = mongoose.model("User", UserSchema);
 const Accounts = mongoose.model("Account", AccountsSchema);
+const Transactions = mongoose.model("Transactions", TransectionSchema);
 
-module.exports = connectDB;
-module.exports.User = User;
-module.exports.Accounts = Accounts;
+// module.exports = ;
+module.exports = {
+  connectDB,
+  User,
+  Accounts,
+  Transactions,
+};
